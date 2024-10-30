@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { databases } from '../appwrite/appwrite';
+import { DATABASE_ID, COLLECTION_ID } from '../config';
 
 const SnippetForm = ({ user }) => {
   const [title, setTitle] = useState('');
@@ -16,17 +17,22 @@ const SnippetForm = ({ user }) => {
       setError('Please select a valid programming language.');
       return;
     }
-
+  
     setLoading(true);
     setError(null); // Reset error state
-
+  
     try {
-      await databases.createDocument('6721d5ed003ce6169757', '6721d61500357caf9833', {
-        title,
-        code,
-        language,
-        userId: user.$id,
-      });
+      await databases.createDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        'unique()', // Use 'unique()' to auto-generate the document ID
+        {
+          title,
+          code,
+          language,
+          userId: user.$id,
+        }
+      );
       alert('Snippet added successfully');
       setTitle(''); // Clear form fields
       setCode('');
@@ -38,6 +44,7 @@ const SnippetForm = ({ user }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>

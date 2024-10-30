@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { databases } from '../appwrite/appwrite';
+import { databases, account } from '../appwrite/appwrite';
+import { DATABASE_ID, COLLECTION_ID } from '../config';
 
 const SnippetList = () => {
   const [snippets, setSnippets] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const result = await databases.listDocuments('6721d5ed003ce6169757', '6721d61500357caf9833');
+        // Check if the user is authenticated
+        const user = await account.get();
+        if (!user) {
+          setError('User is not authenticated');
+          return;
+        }
+
+        // Fetch documents from Appwrite if user is authenticated
+        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         setSnippets(result.documents);
       } catch (error) {
         console.error('Error fetching snippets', error);
+        setError('You need to be logged in to view the snippets.');
       }
     };
     fetchSnippets();
@@ -19,6 +30,7 @@ const SnippetList = () => {
   return (
     <div>
       <h2>All Snippets</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
         {snippets.map((snippet) => (
           <li key={snippet.$id}>
