@@ -1,28 +1,50 @@
 import React, { useState } from 'react';
-import { databases } from './appwrite';
+import { databases } from '../appwrite/appwrite';
 
-const SnippetForm = () => {
+const SnippetForm = ({ user }) => {
   const [title, setTitle] = useState('');
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('');
 
-  const submitSnippet = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await databases.createDocument('codeSnippets', 'snippets', {
-        title, code, language, upvotes: 0, author: 'USER_ID'
+      await databases.createDocument('YOUR_DATABASE_ID', 'YOUR_COLLECTION_ID', {
+        title,
+        code,
+        language,
+        userId: user.$id,
       });
+      alert('Snippet added successfully');
     } catch (error) {
-      console.error(error);
+      console.error('Error adding snippet', error);
     }
   };
 
   return (
-    <div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <textarea value={code} onChange={(e) => setCode(e.target.value)} placeholder="Code"></textarea>
-      <input value={language} onChange={(e) => setLanguage(e.target.value)} placeholder="Language" />
-      <button onClick={submitSnippet}>Submit</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        placeholder="Title" 
+        value={title} 
+        onChange={(e) => setTitle(e.target.value)} 
+        required 
+      />
+      <textarea 
+        placeholder="Code snippet" 
+        value={code} 
+        onChange={(e) => setCode(e.target.value)} 
+        required 
+      />
+      <input 
+        type="text" 
+        placeholder="Language" 
+        value={language} 
+        onChange={(e) => setLanguage(e.target.value)} 
+        required 
+      />
+      <button type="submit">Add Snippet</button>
+    </form>
   );
 };
 
