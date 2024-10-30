@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { account } from './appwrite/appwrite';
+import HomePage from './pages/HomePage';
+import Login from './components/Login';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const userData = await account.get();
+        setUser(userData);
+      } catch (error) {
+        console.error('User not logged in');
+      }
+    };
+    getUser();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {user ? <HomePage user={user} /> : <Login />}
     </div>
   );
-}
+};
 
 export default App;
