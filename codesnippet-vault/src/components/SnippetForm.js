@@ -21,16 +21,18 @@ const SnippetForm = ({ user }) => {
     setLoading(true);
     setError(null);
   
+    console.log("Form data:", { title, code, language, userId: user?.$id });
+  
     try {
       await databases.createDocument(
         '6721d5ed003ce6169757', // Database ID
         '6721d61500357caf9833', // Collection ID
-        'unique()', // Document ID (use 'unique()' to auto-generate)
+        'unique()', // Document ID
         {
           title,
           code,
           language,
-          userId: user.$id, // Make sure `userId` is included
+          userId: user.$id, // Check if this is populated correctly
         }
       );
       alert('Snippet added successfully');
@@ -44,6 +46,7 @@ const SnippetForm = ({ user }) => {
       setLoading(false);
     }
   };
+  
   
 
   return (
