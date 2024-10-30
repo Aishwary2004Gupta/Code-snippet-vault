@@ -9,7 +9,7 @@ const SnippetForm = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await databases.createDocument('YOUR_DATABASE_ID', 'YOUR_COLLECTION_ID', {
+      await databases.createDocument('6721d5ed003ce6169757', '6721d61500357caf9833', {
         title,
         code,
         language,
