@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { databases } from './appwrite';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/default.css';
+import { databases } from '../appwrite/appwrite';
 
 const SnippetList = () => {
   const [snippets, setSnippets] = useState([]);
 
   useEffect(() => {
     const fetchSnippets = async () => {
-      const result = await databases.listDocuments('codeSnippets', 'snippets');
-      setSnippets(result.documents);
+      try {
+        const result = await databases.listDocuments('6721d5ed003ce6169757', '6721d61500357caf9833');
+        setSnippets(result.documents);
+      } catch (error) {
+        console.error('Error fetching snippets', error);
+      }
     };
     fetchSnippets();
   }, []);
 
   return (
     <div>
-      {snippets.map((snippet) => (
-        <div key={snippet.$id}>
-          <h2>{snippet.title}</h2>
-          <pre>
-            <code className={`language-${snippet.language}`} dangerouslySetInnerHTML={{ __html: hljs.highlight(snippet.language, snippet.code).value }} />
-          </pre>
-          <button>Upvote</button>
-        </div>
-      ))}
+      <h2>All Snippets</h2>
+      <ul>
+        {snippets.map((snippet) => (
+          <li key={snippet.$id}>
+            <h3>{snippet.title}</h3>
+            <pre>{snippet.code}</pre>
+            <p>Language: {snippet.language}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
