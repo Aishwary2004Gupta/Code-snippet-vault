@@ -1,13 +1,20 @@
-import React from 'react';
-import { account } from './appwrite';
+import React, { useEffect } from 'react';
+import { account } from '../appwrite/appwrite';
 
 const Login = () => {
-  const loginWithGithub = () => {
-    account.createOAuth2Session('github');
+  const handleLogin = async () => {
+    try {
+      await account.createOAuth2Session('github', 'http://localhost:3000');
+    } catch (error) {
+      console.error('Login failed', error);
+    }
   };
 
   return (
-    <button onClick={loginWithGithub}>Login with GitHub</button>
+    <div>
+      <h2>Login to CodeSnippet Vault</h2>
+      <button onClick={handleLogin}>Login with GitHub</button>
+    </div>
   );
 };
 
