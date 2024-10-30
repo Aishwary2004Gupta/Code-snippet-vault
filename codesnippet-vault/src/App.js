@@ -18,9 +18,13 @@ const App = () => {
     getUser();
   }, []);
 
+  const handleLogout = () => {
+    setUser(null); // Reset user to null on logout
+  };
+
   return (
     <div>
-      {user ? <HomePage user={user} /> : <Login />}
+      {user ? <HomePage user={user} onLogout={handleLogout} /> : <Login />}
     </div>
   );
 };

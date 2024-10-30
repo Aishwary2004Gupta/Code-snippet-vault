@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { databases } from '../appwrite/appwrite';
-import { DATABASE_ID, COLLECTION_ID } from '../config';
 
-const SnippetList = ({ user }) => {
+const SnippetList = ({ user, onLogout }) => {
   const [snippets, setSnippets] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSnippets = async () => {
       if (!user) {
-        setError('You need to be logged in to view the snippets.');
+        setError('You need to be logged in to view snippets.');
         return;
       }
-
+      
       try {
-        // Fetch documents if user is authenticated
-        const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
+        const result = await databases.listDocuments('6721d5ed003ce6169757', '6721d61500357caf9833');
         setSnippets(result.documents);
       } catch (error) {
         console.error('Error fetching snippets', error);
         setError('Error fetching snippets. Please try again.');
+
+        // Log the user out if there's an authorization error (e.g., session expired)
+        if (error.code === 401) {
+          onLogout();
+        }
       }
     };
-
+    
     fetchSnippets();
-  }, [user]);
+  }, [user, onLogout]);
 
   return (
     <div>
