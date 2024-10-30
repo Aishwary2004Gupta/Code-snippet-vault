@@ -7,7 +7,7 @@ const HomePage = ({ user }) => {
     <div>
       <h1>Welcome to CodeSnippet Vault</h1>
       <SnippetForm user={user} />
-      <SnippetList />
+      <SnippetList user={user} />
     </div>
   );
 };

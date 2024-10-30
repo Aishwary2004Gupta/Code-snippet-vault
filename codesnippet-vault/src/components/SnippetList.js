@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { databases, account } from '../appwrite/appwrite';
+import { databases } from '../appwrite/appwrite';
 import { DATABASE_ID, COLLECTION_ID } from '../config';
 
-const SnippetList = () => {
+const SnippetList = ({ user }) => {
   const [snippets, setSnippets] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSnippets = async () => {
-      try {
-        // Check if the user is authenticated
-        const user = await account.get();
-        if (!user) {
-          setError('User is not authenticated');
-          return;
-        }
+      if (!user) {
+        setError('You need to be logged in to view the snippets.');
+        return;
+      }
 
-        // Fetch documents from Appwrite if user is authenticated
+      try {
+        // Fetch documents if user is authenticated
         const result = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         setSnippets(result.documents);
       } catch (error) {
         console.error('Error fetching snippets', error);
-        setError('You need to be logged in to view the snippets.');
+        setError('Error fetching snippets. Please try again.');
       }
     };
+
     fetchSnippets();
-  }, []);
+  }, [user]);
 
   return (
     <div>
