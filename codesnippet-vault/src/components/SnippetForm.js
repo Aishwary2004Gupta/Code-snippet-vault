@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { databases } from '../appwrite/appwrite';
+import { databases, query } from '../appwrite/appwrite'; // Import query from appwrite
 import { DATABASE_ID, COLLECTION_ID } from '../config';
 
 const SnippetForm = ({ user }) => {
@@ -8,6 +8,7 @@ const SnippetForm = ({ user }) => {
   const [language, setLanguage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [deleteTitle, setDeleteTitle] = useState(''); // New state for snippet title to delete
 
   const validLanguages = ['JavaScript', 'Python', 'Java', 'C#', 'C++', 'Ruby', 'PHP', 'Go', 'Swift'];
 
@@ -23,17 +24,16 @@ const SnippetForm = ({ user }) => {
     setError(null);
   
     try {
-      // Create the document data object matching the collection schema exactly
       const documentData = {
         title: title,
         code: code,
         language: language,
         userId: user.$id,
-        author: user.name || user.email || 'Anonymous', // Fallback to 'Anonymous' if name and email are not available
+        author: user.name || user.email || 'Anonymous',
         upvotes: 0
       };
 
-      console.log('Submitting document:', documentData); // Debug log
+      console.log('Submitting document:', documentData);
       
       const response = await databases.createDocument(
         DATABASE_ID,
@@ -42,15 +42,58 @@ const SnippetForm = ({ user }) => {
         documentData
       );
 
-      console.log('Document created:', response); // Debug log
+      console.log('Document created:', response);
       
       setTitle('');
       setCode('');
       setLanguage('');
       alert('Snippet added successfully!');
     } catch (error) {
-      console.error('Detailed error:', error); // Debug log
+      console.error('Detailed error:', error);
       setError(`Error adding snippet: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTitle) {
+      setError('Please provide a valid snippet title.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Fetch the snippet by title
+      const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
+        query.equal('title', deleteTitle)
+      ]);
+
+      if (response.documents.length === 0) {
+        setError('Snippet not found.');
+        setLoading(false);
+        return;
+      }
+
+      const snippet = response.documents[0];
+
+      // Check if the current user is the owner
+      if (snippet.userId !== user.$id) {
+        setError('You are not authorized to delete this snippet.');
+        setLoading(false);
+        return;
+      }
+
+      // Delete the snippet
+      await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, snippet.$id);
+      console.log('Document deleted:', snippet.$id);
+      alert('Snippet deleted successfully!');
+      setDeleteTitle(''); // Clear the title after deletion
+    } catch (error) {
+      console.error('Detailed error:', error);
+      setError(`Error deleting snippet: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -111,6 +154,27 @@ const SnippetForm = ({ user }) => {
           {loading ? 'Adding...' : 'Add Snippet'}
         </button>
       </form>
+      <div className="mt-6">
+        <h2 className="text-lg font-medium mb-2">Delete Snippet</h2>
+        <input 
+          type="text" 
+          placeholder="Enter snippet title" 
+          value={deleteTitle} 
+          onChange={(e) => setDeleteTitle(e.target.value)} 
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 mb-4"
+        />
+        <button 
+          onClick={handleDelete} 
+          disabled={loading}
+          className={`w-full py-2 px-4 rounded font-medium ${
+            loading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-red-500 hover:bg-red-600 text-white'
+          }`}
+        >
+          {loading ? 'Deleting...' : 'Delete Snippet'}
+        </button>
+      </div>
     </div>
   );
 };

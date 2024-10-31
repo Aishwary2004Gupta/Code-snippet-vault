@@ -58,6 +58,7 @@ header {
   background: var(--primary);
   color: #ffffff;
   font-size: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 header button {
@@ -66,6 +67,11 @@ header button {
   color: #ffffff;
   font-size: 1rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+header button:hover {
+  color: var(--accent);
 }
 
 form {
@@ -112,7 +118,7 @@ button {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:disabled {
@@ -123,6 +129,7 @@ button:disabled {
 
 button:hover:not(:disabled) {
   background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
 .snippet-container {
@@ -170,11 +177,12 @@ code {
   font-weight: bold;
   padding: 8px 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .upvote-button:hover {
   background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
 .theme-toggle {
@@ -192,11 +200,12 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .theme-toggle:hover {
   background-color: var(--muted);
+  transform: rotate(20deg);
 }
 
 /* Responsive adjustments */
