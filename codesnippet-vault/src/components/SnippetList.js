@@ -53,39 +53,21 @@ const SnippetList = ({ user }) => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Your Code Snippets</h2>
-      <div className="space-y-4">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Your Code Snippets</h2>
+      <div className="snippet-container">
         {snippets.map((snippet) => (
-          <div 
-            key={snippet.$id} 
-            className="bg-white shadow rounded-lg overflow-hidden border border-gray-200"
-          >
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">{snippet.title}</h3>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  {snippet.language}
-                </span>
-              </div>
-              <div className="text-sm text-gray-500 mt-1">
-                Added by: {snippet.author || 'Anonymous'}
-              </div>
+          <div key={snippet.$id} className="snippet-card">
+            <div className="snippet-header">
+              <h3 className="snippet-title">{snippet.title}</h3>
+              <span className="snippet-language">{snippet.language}</span>
             </div>
-            <div className="p-4">
-              <pre className="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto">
-                <code>{snippet.code}</code>
-              </pre>
-            </div>
-            <div className="px-4 py-2 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
-              <span className="text-sm text-gray-600">
-                Upvotes: {snippet.upvotes || 0}
-              </span>
-              <button 
-                onClick={() => {/* Add upvote functionality here */}} 
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
-                Upvote
-              </button>
+            <div className="snippet-metadata">Added by: {snippet.author}</div>
+            <pre>
+              <code>{snippet.code}</code>
+            </pre>
+            <div className="snippet-footer">
+              <span className="snippet-upvotes">Upvotes: {snippet.upvotes}</span>
+              <button className="upvote-button">Upvote</button>
             </div>
           </div>
         ))}

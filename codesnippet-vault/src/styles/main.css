@@ -105,7 +105,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   border-color: var(--ring);
   outline: none;
-  box-shadow: 0 0 0 2px var(--ring);
+  box-shadow: 0 0 0 2px var (--ring);
 }
 
 button {
@@ -133,12 +133,24 @@ button:hover:not(:disabled) {
 }
 
 .snippet-container {
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
+}
+
+.snippet-card {
   background-color: var(--card);
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.snippet-card:hover {
+  transform: translateY(-5px);
 }
 
 .snippet-title {
