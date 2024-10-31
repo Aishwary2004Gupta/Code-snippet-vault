@@ -1,6 +1,6 @@
 # Hackathon Submission: CodeSnippet Vault
 
-## GitHub handles of Team Member
+## GitHub handles of Team Member (1)
 @Aishwary2004Gupta
 
 ## Project Title
@@ -25,15 +25,8 @@ This project was inspired by the need for developers to have a centralized place
 
 
 
-### Anything Else You Want To Share With Us?
+https://github.com/user-attachments/assets/b5f97ce2-a0ee-4ec1-9ad7-0c537da1f417
 
-#### Database
-- Create a "codeSnippets" database and add a collection "snippets" with the following attributes:
-  - **userId** (string), **title** (string), **code** (string), **language** (string), **votes** (integer), **timestamp** (datetime)
-- Set permissions: read for all, write for authenticated users.
 
-#### Authentication
-- Enable OAuth2 with GitHub for user login. Set up a GitHub OAuth app and add the credentials to Appwrite.
 
-#### Functions (Optional)
-- Create a function "analyzeCodeQuality" using Node.js or Python, allowing code quality checks.
+
