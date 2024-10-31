@@ -53,7 +53,7 @@ const SnippetList = ({ user }) => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Your Code Snippets</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800"><center>Your Code Snippets</center></h2>
       <div className="snippet-container">
         {snippets.map((snippet) => (
           <div key={snippet.$id} className="snippet-card">
