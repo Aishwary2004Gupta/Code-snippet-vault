@@ -43,17 +43,6 @@ const SnippetList = ({ user }) => {
     );
   }
 
-  const handleDelete = async (snippetId) => {
-    try {
-      await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, snippetId);
-      setSnippets(snippets.filter(snippet => snippet.$id !== snippetId));
-      alert('Snippet deleted successfully!');
-    } catch (error) {
-      console.error('Error deleting snippet:', error);
-      alert('Failed to delete snippet.');
-    }
-  };
-
   if (snippets.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
