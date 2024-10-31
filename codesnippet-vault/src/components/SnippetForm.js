@@ -9,7 +9,7 @@ const SnippetForm = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const validLanguages = ['JavaScript', 'Python', 'Java', 'C#', 'C++', 'Ruby', 'PHP', 'Go', 'Swift'];
+  const validLanguages = ['Text','JavaScript', 'Python', 'Java', 'C#', 'C++', 'Ruby', 'PHP', 'Go', 'Swift'];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
