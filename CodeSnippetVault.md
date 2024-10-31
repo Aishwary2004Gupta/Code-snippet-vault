@@ -13,10 +13,22 @@
 This project was inspired by the need for developers to have a centralized place to store reusable code snippets. Additionally, having a quality analysis feature and voting mechanism makes it a powerful community-driven repository.
 
 ## Tech Stack    
-- **Frontend**: Next.js with TypeScript, Tailwind CSS, shadcn/ui components
-- **Backend**: Appwrite services (Database, Authentication, Functions)
-- **OAuth**: GitHub for user authentication
-- **Deployment**: Platforms like Vercel or Netlify
+
+### Frontend:
+
+- Next.js with TypeScript for the core application framework
+- Tailwind CSS for styling
+- shadcn/ui for UI components
+- Radix UI icons for consistent iconography
+
+### Backend & Infrastructure:
+
+### Appwrite for:
+
+- Authentication (OAuth with GitHub)
+- Database management
+- Serverless functions
+- Real-time updates
 
 ## Project Repo  
 [CodeSnippet Vault Repository](https://github.com/Aishwary2004Gupta/Code-snippet-vault)
