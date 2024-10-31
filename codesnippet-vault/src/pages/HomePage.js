@@ -14,9 +14,11 @@ const HomePage = ({ user, onLogout }) => {
   };
 
   return (
-    <div>
-      <h1>Welcome to CodeSnippet Vault</h1>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Welcome to CodeSnippet Vault</h1>
+        <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+      </div>
       <SnippetForm user={user} />
       <SnippetList user={user} />
     </div>

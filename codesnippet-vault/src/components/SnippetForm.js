@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { databases } from '../appwrite/appwrite';
+import { DATABASE_ID, COLLECTION_ID } from '../config';
 
 const SnippetForm = ({ user }) => {
   const [title, setTitle] = useState('');
@@ -21,18 +22,16 @@ const SnippetForm = ({ user }) => {
     setLoading(true);
     setError(null);
   
-    console.log("Form data:", { title, code, language, userId: user?.$id });
-  
     try {
       await databases.createDocument(
-        '6721d5ed003ce6169757', // Database ID
-        '6721d61500357caf9833', // Collection ID
-        'unique()', // Document ID
+        DATABASE_ID,
+        COLLECTION_ID,
+        'unique()',
         {
           title,
           code,
           language,
-          userId: user.$id, // Check if this is populated correctly
+          userId: user.$id,
         }
       );
       alert('Snippet added successfully');
@@ -46,33 +45,41 @@ const SnippetForm = ({ user }) => {
       setLoading(false);
     }
   };
-  
-  
 
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <p className="text-red-500">{error}</p>}
       <input 
         type="text" 
         placeholder="Title" 
         value={title} 
         onChange={(e) => setTitle(e.target.value)} 
         required 
+        className="w-full p-2 border rounded"
       />
       <textarea 
         placeholder="Code snippet" 
         value={code} 
         onChange={(e) => setCode(e.target.value)} 
         required 
+        className="w-full p-2 border rounded"
       />
-      <input 
-        type="text" 
-        placeholder="Language" 
+      <select 
         value={language} 
         onChange={(e) => setLanguage(e.target.value)} 
-        required 
-      />
-      <button type="submit" disabled={loading}>
+        required
+        className="w-full p-2 border rounded"
+      >
+        <option value="">Select Language</option>
+        {validLanguages.map(lang => (
+          <option key={lang} value={lang}>{lang}</option>
+        ))}
+      </select>
+      <button 
+        type="submit" 
+        disabled={loading}
+        className="w-full bg-blue-500 text-white p-2 rounded disabled:bg-gray-300"
+      >
         {loading ? 'Adding...' : 'Add Snippet'}
       </button>
     </form>
