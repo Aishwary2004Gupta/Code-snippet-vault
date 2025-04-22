@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>CodeSnippet Vault</title>
-  <link rel="stylesheet" href="/main.css">
-</head>
-<body>
-  <div id="root"></div>
-  <script>
-    document.body.insertAdjacentHTML('afterbegin', '<button class="theme-toggle" id="themeToggle">🌓</button>');
+  <head>
+    <meta charset="UTF-8" />
+    <title>CodeSnippet Vault</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      document.body.insertAdjacentHTML(
+        "afterbegin",
+        '<button class="theme-toggle" id="themeToggle">🌓</button>'
+      );
 
-const themeToggle = document.getElementById('themeToggle');
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const themeToggle = document.getElementById("themeToggle");
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
 
-function setTheme(theme) {
-  document.body.classList.toggle('dark', theme === 'dark');
-  localStorage.setItem('theme', theme);
-}
+      function setTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
+      }
 
-// Check for saved theme preference or use the system preference
-const savedTheme = localStorage.getItem('theme');
-setTheme(savedTheme || (prefersDarkScheme.matches ? 'dark' : 'light'));
+      // Check for saved theme preference or use the system preference
+      const savedTheme = localStorage.getItem("theme");
+      setTheme(savedTheme || (prefersDarkScheme.matches ? "dark" : "light"));
 
-// Theme toggle button functionality
-themeToggle.addEventListener('click', () => {
-  const currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
-  setTheme(currentTheme);
-});
+      // Theme toggle button functionality
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = document.body.classList.contains("dark")
+          ? "light"
+          : "dark";
+        setTheme(currentTheme);
+      });
 
-// Listen for system theme changes
-prefersDarkScheme.addEventListener('change', (e) => {
-  const currentTheme = localStorage.getItem('theme');
-  if (!currentTheme) {
-    setTheme(e.matches ? 'dark' : 'light');
-  }
-});
-  </script>
-</body>
+      // Listen for system theme changes
+      prefersDarkScheme.addEventListener("change", (e) => {
+        const currentTheme = localStorage.getItem("theme");
+        if (!currentTheme) {
+          setTheme(e.matches ? "dark" : "light");
+        }
+      });
+    </script>
+  </body>
 </html>
