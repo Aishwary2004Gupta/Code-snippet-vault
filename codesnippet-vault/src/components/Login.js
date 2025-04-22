@@ -15,7 +15,7 @@ const Login = ({ setUser }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h2 className="text-2xl font-bold mb-4"><center>Login to CodeSnippet Vault</center></h2>
-      <button 
+      <button
         onClick={handleLogin}
         className="bg-black text-white px-4 py-2 rounded flex items-center"
       >
